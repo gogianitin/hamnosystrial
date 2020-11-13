@@ -16,24 +16,55 @@
 </head>
 
 <body onload="CWASA.init();">
-
-<!--================================================================-->
+    <script>
+        /* JS comes here */
+        function runSpeechRecognition() {
+            // get output div reference
+            var output = document.getElementById("output");
+            // get action element reference
+            var action = document.getElementById("action");
+            // new speech recognition object
+            var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
+            var recognition = new SpeechRecognition();
+        
+            // This runs when the speech recognition service starts
+            recognition.onstart = function() {
+                action.innerHTML = "<small>listening, please speak...</small>";
+            };
+            
+            recognition.onspeechend = function() {
+                action.innerHTML = "<small>stopped listening, hope you are done...</small>";
+                recognition.stop();
+            }
+          
+            // This runs when the speech recognition service returns result
+            recognition.onresult = function(event) {
+                var transcript = event.results[0][0].transcript;
+                document.getElementById("txtTranscript").value = transcript
+                // output.innerHTML = "<b>Text:</b> " + transcript + "<br/> <b>Confidence:</b> " + confidence*100+"%";
+                output.classList.remove("hide");
+            };
+          
+             // start recognition
+             recognition.start();
+        }
+    </script>
+ <!--================================================================-->
 <h3>CoffeeScript WebGL ARP Signing Avatar with Animgen via JASigning: vhg.2020</h3>
 <!-- <h4>Single Signing Avatar with complete GUI</h4> -->
 <hr/>
-
-<!-- CWA signing avatar panel 0 -->
 <table align="center">
     <tr>
-        <td width = "500" height="500">
-            <!--================================================================-->
-            <div class="CWASAAvatar av0" align="center" ></div>
-            <!--================================================================-->
-            <!-- CWA signing avatar panel 0 -->
+        <td width="8" align="center">
+        <p>Click on the below button and speak something...(Only Chrome browser support for now)</p>
+        <p><button type="button" onclick="runSpeechRecognition()">Speech to Text</button> &nbsp; <span id="action"></span></p>
+        <div id="output" class="hide"></div>
         </td>
     </tr>
+<!-- CWA signing avatar panel 0 -->
+
     <tr>
-        <td width="8"><!--================================================================-->
+        <td width="8" align="center"><!--================================================================-->
             <div class="CWASASiGMLText av0" align="center" ></div>
             <!--================================================================-->
             <!-- CWA signing avatar panel 0 -->
@@ -43,6 +74,15 @@
             
         </td>
     </tr>   
+    <tr>
+        <td width = "500" height="500" align="center">
+            <!--================================================================-->
+            <div class="CWASAAvatar av0" align="center" ></div>
+            <!--================================================================-->
+            <!-- CWA signing avatar panel 0 -->
+        </td>
+    </tr>
+
         <!-- <tr>
             <td width="8">
     <span class="spanInfo av0">
@@ -63,6 +103,7 @@
 <!--================================================================-->
 <div class="SToCA" align="center" ></div>
 <!--================================================================-->
+
 
 </body>
 </html>
